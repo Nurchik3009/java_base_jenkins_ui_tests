@@ -1,14 +1,12 @@
 plugins {
     id 'java-library'
-    // Ставим актуальную 3-ю версию плагина, которая полностью совместима со свежим Gradle
-    id 'io.qameta.allure' version '3.0.1'
+    id 'io.qameta.allure' version '3.0.0'
 }
 
 repositories {
     mavenCentral()
 }
 
-// Твои версии зависимостей
 def selenideVersion = "7.13.0",
     allureVersion = "2.32.0",
     junitVersion = "5.14.1",
@@ -18,12 +16,11 @@ allure {
     report {
         version.set(allureVersion)
     }
-    adapter {
-        // Просто присваиваем true через знак равенства
-        aspectjweaver = true
+    adapter { // отвечает за появление папочки build/allure-results
+        aspectjWeaver.set(true) //обработка аннотации @Step
         frameworks {
-            junit5 {
-                adapterVersion.set(allureVersion)
+            junit5 { //название фреймворка
+                adapterVersion.set(allureVersion) //версия интеграции фреймворка и Allure
             }
         }
     }
@@ -32,6 +29,7 @@ allure {
 dependencies {
     testImplementation (
             "com.codeborne:selenide:$selenideVersion",
+            "io.qameta.allure:allure-selenide:$allureVersion",
             "org.junit.jupiter:junit-jupiter:$junitVersion",
             "org.slf4j:slf4j-simple:$slf4jVersion"
     )
